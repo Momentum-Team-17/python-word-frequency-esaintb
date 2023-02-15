@@ -1,8 +1,10 @@
 import string
 
-STOP_WORDS = ['a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for',
-              'from', 'has', 'he', 'i', 'in', 'is', 'it', 'its', 'of', 'on', 'that',
-              'the', 'to', 'were', 'will', 'with', 'if', 'we', 'she']
+STOP_WORDS = [
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for',
+    'from', 'has', 'he', 'i', 'in', 'is', 'it', 'its', 'of',
+    'on', 'that', 'the', 'to', 'were', 'will', 'with', 'if', 'we', 'she'
+]
 
 
 def remove_punctuation(words):
@@ -34,6 +36,14 @@ def open_file(file):
     return cleaned_list
 
 
+# 6. display a count in the console in descending frequency
+def sort_dictionary(dictionary):
+    sorted_word_count_by_frequency = sorted(
+        dictionary.items(), key=lambda x: x[1], reverse=True)
+    # print(sorted_word_count_by_frequency)
+    return sorted_word_count_by_frequency
+
+
 # 5. count frequency of words in a file
 # loop through the list of words, and updated the dictionary to indicate how many of each we have
 def print_word_freq(file):
@@ -46,13 +56,14 @@ def print_word_freq(file):
             word_count[word] += 1
         else:
             word_count[word] = 1
-    print(word_count)
-
-
-# 6. display a count in the console in descending frequency
+# calling the reverse sorting
+    sorted_word_count = sort_dictionary(word_count)
+    print(sorted_word_count)
+    return sorted_word_count
 
 
 # 7. turn numbers into *
+
 
 if __name__ == "__main__":
     import argparse
