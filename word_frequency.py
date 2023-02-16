@@ -1,19 +1,19 @@
 import string
 
 STOP_WORDS = [
-    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for',
-    'from', 'has', 'he', 'i', 'in', 'is', 'it', 'its', 'of',
-    'on', 'that', 'the', 'to', 'were', 'will', 'with', 'if', 'we', 'she'
+    'a', 'an', 'and', 'are', 'as', 'at', 'be', 'by', 'for', 'from', 'has', 'he',
+    'i', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'were',
+    'will', 'with', 'we', 'if', 'her', 'our'
 ]
 
 
 def remove_punctuation(words):
-    # for char in PUNCTUATION:
     stripped_file = words.translate(str.maketrans('', '', string.punctuation))
     return stripped_file
+    # .translate(str.maketrans('','',x')) removes certain characters, in this
+    # case that is PUNCTUATIONS
 
 
-# 4. remove "stop words" - words used so frequently we ignore
 def remove_stop_words(word_list):
     cleaned_list = []
     for word in word_list:
@@ -22,47 +22,53 @@ def remove_stop_words(word_list):
     return cleaned_list
 
 
-# 1. use 'open' to read a text file
 def open_file(file):
+    '''Usesd 'open' to read a text file'''
     with open(file) as opened_file:
+        # file remains open for the indented lines under here
         read_file = opened_file.read()
-        # 2. remove punctuation
-        # 3. normalize all words to lowercase
     stripped_file = remove_punctuation(read_file).lower()
     word_list = stripped_file.split()
-    # calling the removal of stop words
+    # .split() turns string into lists
     cleaned_list = remove_stop_words(word_list)
-    print(cleaned_list)
+    # print(cleaned_list)
     return cleaned_list
 
 
-# 6. display a count in the console in descending frequency
 def sort_dictionary(dictionary):
-    sorted_word_count_by_frequency = sorted(
-        dictionary.items(), key=lambda x: x[1], reverse=True)
-    # print(sorted_word_count_by_frequency)
-    return sorted_word_count_by_frequency
+    sorted_count_by_frequency = sorted(
+        dictionary.items(), key=lambda x: x[1], reverse=True
+    )
+    return sorted_count_by_frequency
 
 
-# 5. count frequency of words in a file
-# loop through the list of words, and updated the dictionary to indicate how many of each we have
+def format_sd(new):
+    format = []
+    for index in new:
+        astrisks = '*' * index[1]
+        formatted = [str(index[0]) + ' | ' + str(index[1]) + ' ' + astrisks]
+        format.append(formatted)
+        # print(format)
+    return format
+
+
 def print_word_freq(file):
+    """Read in `file` and print out the frequency of words in that file."""
+    # use 'open' to read a text file
     words_to_count = open_file(file)
     word_count = {
-        'new': words_to_count.count('new')
+        # 'new': words_to_count.count('new')
     }
     for word in words_to_count:
         if word in word_count.keys():
             word_count[word] += 1
         else:
             word_count[word] = 1
-# calling the reverse sorting
-    sorted_word_count = sort_dictionary(word_count)
-    print(sorted_word_count)
-    return sorted_word_count
-
-
-# 7. turn numbers into *
+    sorted_dictionary = sort_dictionary(word_count)
+    # print(sorted_dictionary)
+    final_sd = format_sd(sorted_dictionary)
+    new_tup = tuple(tuple(unit) for unit in final_sd)
+    print(str(new_tup))
 
 
 if __name__ == "__main__":
